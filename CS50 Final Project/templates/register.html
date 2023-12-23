@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main_not_logged_in %}
+
+    <form id="registrationForm" action="/register" method="post" onsubmit="return validateForm()">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Repeat password" type="password">
+            <small id="passwordMismatch" class="text-danger d-none">Passwords do not match.</small>
+            <small id="usernameMissing" class="text-danger d-none">Enter username.</small>
+            <small id="passwordMissing" class="text-danger d-none">Enter password.</small>
+            <small id="bothMissing" class="text-danger d-none">Enter username and password.</small>
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+    </form>
+
+    <script>
+        function validateForm() {
+            var password = document.getElementById('password').value;
+            var confirmation = document.getElementById('confirmation').value;
+            var username = document.getElementById('username').value;
+
+            // Hide error message (if previously shown)
+            document.getElementById('usernameMissing').classList.add('d-none');
+            document.getElementById('passwordMissing').classList.add('d-none');
+            document.getElementById('passwordMismatch').classList.add('d-none');
+            document.getElementById('bothMissing').classList.add('d-none');
+
+            if (username.trim() === '' && password.trim() === '') {
+                // Display error message
+                document.getElementById('bothMissing').classList.remove('d-none');
+                return false; // Prevent form submission
+            } else if (username.trim() === '') {
+                // Display error message
+                document.getElementById('usernameMissing').classList.remove('d-none');
+                return false; // Prevent form submission
+            } else if (password.trim() === '') {
+                // Display error message
+                document.getElementById('passwordMissing').classList.remove('d-none');
+                return false; // Prevent form submission
+            } else if (password !== confirmation) {
+                // Display error message
+                document.getElementById('passwordMismatch').classList.remove('d-none');
+                return false; // Prevent form submission
+            }
+
+            return true; // Allow form submission
+        }
+    </script>
+{% endblock %}
